@@ -1,11 +1,34 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Smart Lab Equipment</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h1 style="color:blue;">THIS PAGE IS FROM INDEX.HTML</h1>
+{% block content %}
 
-</body>
-</html>
+<section class="bg-light py-5">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold">Smart Lab Equipment Application</h1>
+        <p class="lead mt-3">
+            A web-based system to manage laboratory equipment bookings, approvals, and inventory.
+        </p>
+        <a href="/login" class="btn btn-primary btn-lg mt-3">Login to Continue</a>
+    </div>
+</section>
+
+<section class="container py-5">
+    <div class="row text-center">
+        <div class="col-md-4">
+            <h4>Student Module</h4>
+            <p>Students can view equipment, book items, and track booking status.</p>
+        </div>
+
+        <div class="col-md-4">
+            <h4>Faculty Module</h4>
+            <p>Faculty can approve or reject student equipment requests.</p>
+        </div>
+
+        <div class="col-md-4">
+            <h4>Admin Module</h4>
+            <p>Admin can manage users, equipment, and system reports.</p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
