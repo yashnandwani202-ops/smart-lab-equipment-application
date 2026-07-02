@@ -60,6 +60,53 @@ def equipment():
 
     return render_template("equipment.html", equipment=equipment)
 
+@app.route("/book/<int:equipment_id>")
+def book_equipment(equipment_id):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    user_id = session["user_id"]
+
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        "INSERT INTO bookings (user_id, equipment_id, status) VALUES (%s, %s, %s)",
+        (user_id, equipment_id, "Pending")
+    )
+    mysql.connection.commit()
+    cursor.close()
+
+    flash("Equipment booked successfully. Waiting for faculty approval.")
+    return redirect(url_for("equipment"))
+
+@app.route("/my-bookings")
+def my_bookings():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    user_id = session["user_id"]
+
+    cursor = mysql.connection.cursor()
+
+    cursor.execute("""
+        SELECT
+            bookings.id,
+            equipment.equipment_name,
+            equipment.category,
+            bookings.booking_date,
+            bookings.status
+        FROM bookings
+        JOIN equipment
+            ON bookings.equipment_id = equipment.id
+        WHERE bookings.user_id = %s
+    """, (user_id,))
+
+    bookings = cursor.fetchall()
+
+    cursor.close()
+
+    return render_template("my_bookings.html", bookings=bookings)
+
 
 @app.route("/student")
 def student_dashboard():

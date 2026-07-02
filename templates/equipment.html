@@ -6,6 +6,14 @@
 
     <h2 class="mb-4">Available Lab Equipment</h2>
 
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-success">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <table class="table table-bordered table-striped">
 
         <thead class="table-dark">
@@ -16,13 +24,12 @@
                 <th>Total Quantity</th>
                 <th>Available Quantity</th>
                 <th>Status</th>
+                <th>Action</th>
             </tr>
         </thead>
 
         <tbody>
-
             {% for item in equipment %}
-
             <tr>
                 <td>{{ item[0] }}</td>
                 <td>{{ item[1] }}</td>
@@ -30,17 +37,18 @@
                 <td>{{ item[3] }}</td>
                 <td>{{ item[4] }}</td>
                 <td>{{ item[5] }}</td>
+                <td>
+                    <a href="/book/{{ item[0] }}" class="btn btn-success btn-sm">
+                        Book
+                    </a>
+                </td>
             </tr>
-
             {% endfor %}
-
         </tbody>
 
     </table>
 
-    <a href="/student" class="btn btn-secondary">
-        Back to Dashboard
-    </a>
+    <a href="/student" class="btn btn-secondary">Back to Dashboard</a>
 
 </div>
 
