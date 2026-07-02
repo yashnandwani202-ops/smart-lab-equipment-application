@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Student Booking Requests</h2>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Booking ID</th>
+                <th>Student Name</th>
+                <th>Equipment</th>
+                <th>Booking Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for request in requests %}
+            <tr>
+                <td>{{ request[0] }}</td>
+                <td>{{ request[1] }}</td>
+                <td>{{ request[2] }}</td>
+                <td>{{ request[3] }}</td>
+                <td>{{ request[4] }}</td>
+                <td>
+    {% if request[4] == "Pending" %}
+        <a href="/approve/{{ request[0] }}" class="btn btn-success btn-sm">Approve</a>
+        <a href="/reject/{{ request[0] }}" class="btn btn-danger btn-sm">Reject</a>
+    {% else %}
+        <span class="text-muted">No action available</span>
+    {% endif %}
+</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/faculty" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+
+{% endblock %}

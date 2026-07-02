@@ -107,6 +107,53 @@ def my_bookings():
 
     return render_template("my_bookings.html", bookings=bookings)
 
+@app.route("/faculty-requests")
+def faculty_requests():
+    cursor = mysql.connection.cursor()
+
+    cursor.execute("""
+        SELECT
+            bookings.id,
+            users.full_name,
+            equipment.equipment_name,
+            bookings.booking_date,
+            bookings.status
+        FROM bookings
+        JOIN users ON bookings.user_id = users.id
+        JOIN equipment ON bookings.equipment_id = equipment.id
+    """)
+
+    requests = cursor.fetchall()
+    cursor.close()
+
+    return render_template("faculty_requests.html", requests=requests)
+
+
+@app.route("/approve/<int:booking_id>")
+def approve_booking(booking_id):
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        "UPDATE bookings SET status = %s WHERE id = %s",
+        ("Approved", booking_id)
+    )
+    mysql.connection.commit()
+    cursor.close()
+
+    return redirect(url_for("faculty_requests"))
+
+
+@app.route("/reject/<int:booking_id>")
+def reject_booking(booking_id):
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        "UPDATE bookings SET status = %s WHERE id = %s",
+        ("Rejected", booking_id)
+    )
+    mysql.connection.commit()
+    cursor.close()
+
+    return redirect(url_for("faculty_requests"))
+
 
 @app.route("/student")
 def student_dashboard():
