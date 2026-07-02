@@ -46,6 +46,20 @@ def login():
     return render_template("login.html")
 
 
+@app.route("/equipment")
+def equipment():
+
+    cursor = mysql.connection.cursor()
+
+    cursor.execute("SELECT * FROM equipment")
+
+    equipment = cursor.fetchall()
+
+    cursor.close()
+
+    return render_template("equipment.html", equipment=equipment)
+
+
 @app.route("/student")
 def student_dashboard():
     return render_template("student_dashboard.html")
