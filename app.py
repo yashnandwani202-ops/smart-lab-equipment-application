@@ -164,6 +164,40 @@ def student_dashboard():
 def faculty_dashboard():
     return render_template("faculty_dashboard.html")
 
+@app.route("/add-equipment", methods=["GET", "POST"])
+def add_equipment():
+    if request.method == "POST":
+        equipment_name = request.form["equipment_name"]
+        category = request.form["category"]
+        quantity = request.form["quantity"]
+        available_quantity = request.form["available_quantity"]
+        status = request.form["status"]
+
+        cursor = mysql.connection.cursor()
+        cursor.execute(
+            "INSERT INTO equipment (equipment_name, category, quantity, available_quantity, status) VALUES (%s, %s, %s, %s, %s)",
+            (equipment_name, category, quantity, available_quantity, status)
+        )
+        mysql.connection.commit()
+        cursor.close()
+
+        return redirect(url_for("admin_equipment"))
+
+    return render_template("add_equipment.html")
+
+@app.route("/admin-equipment")
+def admin_equipment():
+
+    cursor = mysql.connection.cursor()
+
+    cursor.execute("SELECT * FROM equipment")
+
+    equipment = cursor.fetchall()
+
+    cursor.close()
+
+    return render_template("admin_equipment.html", equipment=equipment)
+
 
 @app.route("/admin")
 def admin_dashboard():
