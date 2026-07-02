@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
@@ -32,6 +32,11 @@ def login():
         cursor.close()
 
         if user:
+            session["user_id"] = user[0]
+            session["full_name"] = user[1]
+            session["email"] = user[2]
+            session["role"] = user[4]
+
             role = user[4]
 
             if role == "student":
@@ -48,13 +53,9 @@ def login():
 
 @app.route("/equipment")
 def equipment():
-
     cursor = mysql.connection.cursor()
-
     cursor.execute("SELECT * FROM equipment")
-
     equipment = cursor.fetchall()
-
     cursor.close()
 
     return render_template("equipment.html", equipment=equipment)
@@ -73,6 +74,12 @@ def faculty_dashboard():
 @app.route("/admin")
 def admin_dashboard():
     return render_template("admin_dashboard.html")
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
 
 
 if __name__ == "__main__":
