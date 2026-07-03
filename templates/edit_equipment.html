@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">Edit Equipment</h2>
+
+    <form method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Equipment Name</label>
+            <input type="text" name="equipment_name" class="form-control" value="{{ equipment[1] }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Category</label>
+            <input type="text" name="category" class="form-control" value="{{ equipment[2] }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Total Quantity</label>
+            <input type="number" name="quantity" class="form-control" value="{{ equipment[3] }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Available Quantity</label>
+            <input type="number" name="available_quantity" class="form-control" value="{{ equipment[4] }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select name="status" class="form-select">
+                <option value="Available" {% if equipment[5] == "Available" %}selected{% endif %}>Available</option>
+                <option value="Unavailable" {% if equipment[5] == "Unavailable" %}selected{% endif %}>Unavailable</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-warning">
+            Update Equipment
+        </button>
+
+        <a href="/admin-equipment" class="btn btn-secondary">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

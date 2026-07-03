@@ -185,6 +185,46 @@ def add_equipment():
 
     return render_template("add_equipment.html")
 
+@app.route("/edit-equipment/<int:equipment_id>", methods=["GET", "POST"])
+def edit_equipment(equipment_id):
+    cursor = mysql.connection.cursor()
+
+    if request.method == "POST":
+        equipment_name = request.form["equipment_name"]
+        category = request.form["category"]
+        quantity = request.form["quantity"]
+        available_quantity = request.form["available_quantity"]
+        status = request.form["status"]
+
+        cursor.execute(
+            "UPDATE equipment SET equipment_name=%s, category=%s, quantity=%s, available_quantity=%s, status=%s WHERE id=%s",
+            (equipment_name, category, quantity, available_quantity, status, equipment_id)
+        )
+        mysql.connection.commit()
+        cursor.close()
+
+        return redirect(url_for("admin_equipment"))
+
+    cursor.execute("SELECT * FROM equipment WHERE id = %s", (equipment_id,))
+    equipment = cursor.fetchone()
+    cursor.close()
+
+    return render_template("edit_equipment.html", equipment=equipment)
+
+@app.route("/delete-equipment/<int:equipment_id>")
+def delete_equipment(equipment_id):
+    cursor = mysql.connection.cursor()
+
+    cursor.execute(
+        "DELETE FROM equipment WHERE id = %s",
+        (equipment_id,)
+    )
+
+    mysql.connection.commit()
+    cursor.close()
+
+    return redirect(url_for("admin_equipment"))
+
 @app.route("/admin-equipment")
 def admin_equipment():
 
