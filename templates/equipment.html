@@ -38,10 +38,16 @@
                 <td>{{ item[4] }}</td>
                 <td>{{ item[5] }}</td>
                 <td>
-                    <a href="/book/{{ item[0] }}" class="btn btn-success btn-sm">
-                        Book
-                    </a>
-                </td>
+                 {% if item[4] > 0 %}
+                 <a href="/book/{{ item[0] }}" class="btn btn-success btn-sm">
+                 Book
+               </a>
+            {% else %}
+           <button class="btn btn-secondary btn-sm" disabled>
+            Unavailable
+             </button>
+        {% endif %}
+        </td>
             </tr>
             {% endfor %}
         </tbody>

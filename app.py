@@ -196,11 +196,30 @@ def approve_booking(booking_id):
         return redirect(url_for("login"))
 
     cursor = mysql.connection.cursor()
+
     cursor.execute(
-        "UPDATE bookings SET status = %s WHERE id = %s",
-        ("Approved", booking_id)
+        "SELECT equipment_id, status FROM bookings WHERE id = %s",
+        (booking_id,)
     )
-    mysql.connection.commit()
+    booking = cursor.fetchone()
+
+    if booking:
+        equipment_id = booking[0]
+        current_status = booking[1]
+
+        if current_status == "Pending":
+            cursor.execute(
+                "UPDATE equipment SET available_quantity = available_quantity - 1 WHERE id = %s AND available_quantity > 0",
+                (equipment_id,)
+            )
+
+            cursor.execute(
+                "UPDATE bookings SET status = %s WHERE id = %s",
+                ("Approved", booking_id)
+            )
+
+            mysql.connection.commit()
+
     cursor.close()
 
     return redirect(url_for("faculty_requests"))
@@ -321,6 +340,38 @@ def delete_equipment(equipment_id):
     cursor.close()
 
     return redirect(url_for("admin_equipment"))
+
+@app.route("/add-user", methods=["GET", "POST"])
+def add_user():
+
+    if not require_role("admin"):
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+
+        full_name = request.form["full_name"]
+        email = request.form["email"]
+        password = request.form["password"]
+        role = request.form["role"]
+        status = request.form["status"]
+
+        cursor = mysql.connection.cursor()
+
+        cursor.execute(
+            """
+            INSERT INTO users
+            (full_name, email, password, role, status)
+            VALUES (%s, %s, %s, %s, %s)
+            """,
+            (full_name, email, password, role, status)
+        )
+
+        mysql.connection.commit()
+        cursor.close()
+
+        return redirect(url_for("admin_users"))
+
+    return render_template("add_user.html")
 
 
 @app.route("/admin-users")
