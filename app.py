@@ -12,9 +12,49 @@ app.config["MYSQL_DB"] = "smart_lab_db"
 mysql = MySQL(app)
 
 
+def require_role(role):
+    if "user_id" not in session or session["role"] != role:
+        return False
+    return True
+
+
 @app.route("/")
 def home():
     return render_template("index.html")
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        full_name = request.form["full_name"]
+        email = request.form["email"]
+        password = request.form["password"]
+        role = request.form["role"]
+
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+        existing_user = cursor.fetchone()
+
+        if existing_user:
+            cursor.close()
+            flash("Email already registered!")
+            return redirect(url_for("register"))
+
+        cursor.execute(
+            """
+            INSERT INTO users (full_name, email, password, role, status)
+            VALUES (%s, %s, %s, %s, %s)
+            """,
+            (full_name, email, password, role, "Active")
+        )
+
+        mysql.connection.commit()
+        cursor.close()
+
+        flash("Registration successful! Please login.")
+        return redirect(url_for("login"))
+
+    return render_template("register.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -51,8 +91,19 @@ def login():
     return render_template("login.html")
 
 
+@app.route("/student")
+def student_dashboard():
+    if not require_role("student"):
+        return redirect(url_for("login"))
+
+    return render_template("student_dashboard.html")
+
+
 @app.route("/equipment")
 def equipment():
+    if not require_role("student"):
+        return redirect(url_for("login"))
+
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT * FROM equipment")
     equipment = cursor.fetchall()
@@ -60,9 +111,10 @@ def equipment():
 
     return render_template("equipment.html", equipment=equipment)
 
+
 @app.route("/book/<int:equipment_id>")
 def book_equipment(equipment_id):
-    if "user_id" not in session:
+    if not require_role("student"):
         return redirect(url_for("login"))
 
     user_id = session["user_id"]
@@ -78,16 +130,15 @@ def book_equipment(equipment_id):
     flash("Equipment booked successfully. Waiting for faculty approval.")
     return redirect(url_for("equipment"))
 
+
 @app.route("/my-bookings")
 def my_bookings():
-
-    if "user_id" not in session:
+    if not require_role("student"):
         return redirect(url_for("login"))
 
     user_id = session["user_id"]
 
     cursor = mysql.connection.cursor()
-
     cursor.execute("""
         SELECT
             bookings.id,
@@ -102,15 +153,25 @@ def my_bookings():
     """, (user_id,))
 
     bookings = cursor.fetchall()
-
     cursor.close()
 
     return render_template("my_bookings.html", bookings=bookings)
 
+
+@app.route("/faculty")
+def faculty_dashboard():
+    if not require_role("faculty"):
+        return redirect(url_for("login"))
+
+    return render_template("faculty_dashboard.html")
+
+
 @app.route("/faculty-requests")
 def faculty_requests():
-    cursor = mysql.connection.cursor()
+    if not require_role("faculty"):
+        return redirect(url_for("login"))
 
+    cursor = mysql.connection.cursor()
     cursor.execute("""
         SELECT
             bookings.id,
@@ -131,6 +192,9 @@ def faculty_requests():
 
 @app.route("/approve/<int:booking_id>")
 def approve_booking(booking_id):
+    if not require_role("faculty"):
+        return redirect(url_for("login"))
+
     cursor = mysql.connection.cursor()
     cursor.execute(
         "UPDATE bookings SET status = %s WHERE id = %s",
@@ -144,6 +208,9 @@ def approve_booking(booking_id):
 
 @app.route("/reject/<int:booking_id>")
 def reject_booking(booking_id):
+    if not require_role("faculty"):
+        return redirect(url_for("login"))
+
     cursor = mysql.connection.cursor()
     cursor.execute(
         "UPDATE bookings SET status = %s WHERE id = %s",
@@ -155,17 +222,32 @@ def reject_booking(booking_id):
     return redirect(url_for("faculty_requests"))
 
 
-@app.route("/student")
-def student_dashboard():
-    return render_template("student_dashboard.html")
+@app.route("/admin")
+def admin_dashboard():
+    if not require_role("admin"):
+        return redirect(url_for("login"))
+
+    return render_template("admin_dashboard.html")
 
 
-@app.route("/faculty")
-def faculty_dashboard():
-    return render_template("faculty_dashboard.html")
+@app.route("/admin-equipment")
+def admin_equipment():
+    if not require_role("admin"):
+        return redirect(url_for("login"))
+
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM equipment")
+    equipment = cursor.fetchall()
+    cursor.close()
+
+    return render_template("admin_equipment.html", equipment=equipment)
+
 
 @app.route("/add-equipment", methods=["GET", "POST"])
 def add_equipment():
+    if not require_role("admin"):
+        return redirect(url_for("login"))
+
     if request.method == "POST":
         equipment_name = request.form["equipment_name"]
         category = request.form["category"]
@@ -175,7 +257,11 @@ def add_equipment():
 
         cursor = mysql.connection.cursor()
         cursor.execute(
-            "INSERT INTO equipment (equipment_name, category, quantity, available_quantity, status) VALUES (%s, %s, %s, %s, %s)",
+            """
+            INSERT INTO equipment
+            (equipment_name, category, quantity, available_quantity, status)
+            VALUES (%s, %s, %s, %s, %s)
+            """,
             (equipment_name, category, quantity, available_quantity, status)
         )
         mysql.connection.commit()
@@ -185,8 +271,12 @@ def add_equipment():
 
     return render_template("add_equipment.html")
 
+
 @app.route("/edit-equipment/<int:equipment_id>", methods=["GET", "POST"])
 def edit_equipment(equipment_id):
+    if not require_role("admin"):
+        return redirect(url_for("login"))
+
     cursor = mysql.connection.cursor()
 
     if request.method == "POST":
@@ -197,7 +287,15 @@ def edit_equipment(equipment_id):
         status = request.form["status"]
 
         cursor.execute(
-            "UPDATE equipment SET equipment_name=%s, category=%s, quantity=%s, available_quantity=%s, status=%s WHERE id=%s",
+            """
+            UPDATE equipment
+            SET equipment_name=%s,
+                category=%s,
+                quantity=%s,
+                available_quantity=%s,
+                status=%s
+            WHERE id=%s
+            """,
             (equipment_name, category, quantity, available_quantity, status, equipment_id)
         )
         mysql.connection.commit()
@@ -211,37 +309,31 @@ def edit_equipment(equipment_id):
 
     return render_template("edit_equipment.html", equipment=equipment)
 
+
 @app.route("/delete-equipment/<int:equipment_id>")
 def delete_equipment(equipment_id):
+    if not require_role("admin"):
+        return redirect(url_for("login"))
+
     cursor = mysql.connection.cursor()
-
-    cursor.execute(
-        "DELETE FROM equipment WHERE id = %s",
-        (equipment_id,)
-    )
-
+    cursor.execute("DELETE FROM equipment WHERE id = %s", (equipment_id,))
     mysql.connection.commit()
     cursor.close()
 
     return redirect(url_for("admin_equipment"))
 
-@app.route("/admin-equipment")
-def admin_equipment():
+
+@app.route("/admin-users")
+def admin_users():
+    if not require_role("admin"):
+        return redirect(url_for("login"))
 
     cursor = mysql.connection.cursor()
-
-    cursor.execute("SELECT * FROM equipment")
-
-    equipment = cursor.fetchall()
-
+    cursor.execute("SELECT * FROM users")
+    users = cursor.fetchall()
     cursor.close()
 
-    return render_template("admin_equipment.html", equipment=equipment)
-
-
-@app.route("/admin")
-def admin_dashboard():
-    return render_template("admin_dashboard.html")
+    return render_template("admin_users.html", users=users)
 
 
 @app.route("/logout")

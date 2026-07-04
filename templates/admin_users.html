@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Admin - Manage Users</h2>
+
+    <a href="#" class="btn btn-success mb-3">Add New User</a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>User ID</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user[0] }}</td>
+                <td>{{ user[1] }}</td>
+                <td>{{ user[2] }}</td>
+                <td>{{ user[4] }}</td>
+                <td>{{ user[5] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/admin" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+
+{% endblock %}
