@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
@@ -29,6 +30,7 @@ def register():
         full_name = request.form["full_name"]
         email = request.form["email"]
         password = request.form["password"]
+        hashed_password = generate_password_hash(password)
         role = request.form["role"]
 
         cursor = mysql.connection.cursor()
@@ -45,7 +47,7 @@ def register():
             INSERT INTO users (full_name, email, password, role, status)
             VALUES (%s, %s, %s, %s, %s)
             """,
-            (full_name, email, password, role, "Active")
+            (full_name, email, hashed_password, role, "Active")
         )
 
         mysql.connection.commit()
@@ -65,13 +67,13 @@ def login():
 
         cursor = mysql.connection.cursor()
         cursor.execute(
-            "SELECT * FROM users WHERE email = %s AND password = %s",
-            (email, password)
-        )
+            "SELECT * FROM users WHERE email = %s",
+             (email,)
+)
         user = cursor.fetchone()
         cursor.close()
 
-        if user:
+        if user and check_password_hash(user[3], password):
             session["user_id"] = user[0]
             session["full_name"] = user[1]
             session["email"] = user[2]
@@ -240,6 +242,43 @@ def reject_booking(booking_id):
 
     return redirect(url_for("faculty_requests"))
 
+@app.route("/admin-reports")
+def admin_reports():
+    if not require_role("admin"):
+        return redirect(url_for("login"))
+
+    cursor = mysql.connection.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM users")
+    total_users = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM equipment")
+    total_equipment = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM bookings")
+    total_bookings = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM bookings WHERE status = 'Pending'")
+    pending = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM bookings WHERE status = 'Approved'")
+    approved = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM bookings WHERE status = 'Rejected'")
+    rejected = cursor.fetchone()[0]
+
+    cursor.close()
+
+    return render_template(
+        "admin_reports.html",
+        total_users=total_users,
+        total_equipment=total_equipment,
+        total_bookings=total_bookings,
+        pending=pending,
+        approved=approved,
+        rejected=rejected
+    )
+
 
 @app.route("/admin")
 def admin_dashboard():
@@ -372,6 +411,69 @@ def add_user():
         return redirect(url_for("admin_users"))
 
     return render_template("add_user.html")
+
+@app.route("/edit-user/<int:user_id>", methods=["GET", "POST"])
+def edit_user(user_id):
+
+    if not require_role("admin"):
+        return redirect(url_for("login"))
+
+    cursor = mysql.connection.cursor()
+
+    if request.method == "POST":
+
+        full_name = request.form["full_name"]
+        email = request.form["email"]
+        password = request.form["password"]
+        role = request.form["role"]
+        status = request.form["status"]
+
+        cursor.execute(
+            """
+            UPDATE users
+            SET full_name=%s,
+                email=%s,
+                password=%s,
+                role=%s,
+                status=%s
+            WHERE id=%s
+            """,
+            (full_name, email, password, role, status, user_id)
+        )
+
+        mysql.connection.commit()
+        cursor.close()
+
+        return redirect(url_for("admin_users"))
+
+    cursor.execute(
+        "SELECT * FROM users WHERE id = %s",
+        (user_id,)
+    )
+
+    user = cursor.fetchone()
+
+    cursor.close()
+
+    return render_template("edit_user.html", user=user)
+
+@app.route("/delete-user/<int:user_id>")
+def delete_user(user_id):
+
+    if not require_role("admin"):
+        return redirect(url_for("login"))
+
+    cursor = mysql.connection.cursor()
+
+    cursor.execute(
+        "DELETE FROM users WHERE id = %s",
+        (user_id,)
+    )
+
+    mysql.connection.commit()
+    cursor.close()
+
+    return redirect(url_for("admin_users"))
 
 
 @app.route("/admin-users")

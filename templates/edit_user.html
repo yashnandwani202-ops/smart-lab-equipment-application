@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Edit User</h2>
+
+    <form method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <input type="text" name="full_name" class="form-control" value="{{ user[1] }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" value="{{ user[2] }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="text" name="password" class="form-control" value="{{ user[3] }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Role</label>
+            <select name="role" class="form-select" required>
+                <option value="student" {% if user[4] == "student" %}selected{% endif %}>Student</option>
+                <option value="faculty" {% if user[4] == "faculty" %}selected{% endif %}>Faculty</option>
+                <option value="admin" {% if user[4] == "admin" %}selected{% endif %}>Admin</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select name="status" class="form-select" required>
+                <option value="Active" {% if user[5] == "Active" %}selected{% endif %}>Active</option>
+                <option value="Inactive" {% if user[5] == "Inactive" %}selected{% endif %}>Inactive</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-warning">Update User</button>
+        <a href="/admin-users" class="btn btn-secondary">Cancel</a>
+
+    </form>
+</div>
+
+{% endblock %}
