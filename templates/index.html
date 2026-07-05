@@ -2,31 +2,90 @@
 
 {% block content %}
 
-<section class="bg-light py-5">
-    <div class="container text-center py-5">
-        <h1 class="display-4 fw-bold">Smart Lab Equipment Application</h1>
-        <p class="lead mt-3">
-            A web-based system to manage laboratory equipment bookings, approvals, and inventory.
-        </p>
-        <a href="/login" class="btn btn-primary btn-lg mt-3">Login to Continue</a>
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+
+            <div class="col-md-6">
+                <span class="hero-badge">Smart Lab Management</span>
+
+                <h1 class="hero-title">
+                    Manage Lab Equipment Smarter with <span>LabEase</span>
+                </h1>
+
+                <p class="hero-text">
+                    A modern platform for lab equipment booking, inventory tracking,
+                    faculty approvals, and admin management.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="/register" class="btn btn-primary btn-lg me-3">
+                        Get Started
+                    </a>
+
+                    <a href="/login" class="btn btn-outline-primary btn-lg">
+                        Login
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="hero-card">
+                    <h4>System Overview</h4>
+
+                    <div class="overview-item">
+                        <span>Equipment Inventory</span>
+                        <strong>Live Tracking</strong>
+                    </div>
+
+                    <div class="overview-item">
+                        <span>Booking Requests</span>
+                        <strong>Faculty Approval</strong>
+                    </div>
+
+                    <div class="overview-item">
+                        <span>User Roles</span>
+                        <strong>Student · Faculty · Admin</strong>
+                    </div>
+
+                    <div class="overview-item">
+                        <span>Reports</span>
+                        <strong>Real-time Insights</strong>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </section>
 
-<section class="container py-5">
-    <div class="row text-center">
-        <div class="col-md-4">
-            <h4>Student Module</h4>
-            <p>Students can view equipment, book items, and track booking status.</p>
-        </div>
+<section class="features-section">
+    <div class="container">
+        <h2 class="section-title text-center">Why LabEase?</h2>
 
-        <div class="col-md-4">
-            <h4>Faculty Module</h4>
-            <p>Faculty can approve or reject student equipment requests.</p>
-        </div>
+        <div class="row mt-5">
 
-        <div class="col-md-4">
-            <h4>Admin Module</h4>
-            <p>Admin can manage users, equipment, and system reports.</p>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <h5>Easy Booking</h5>
+                    <p>Students can browse available equipment and request bookings easily.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <h5>Faculty Approval</h5>
+                    <p>Faculty members can approve or reject student equipment requests.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <h5>Admin Control</h5>
+                    <p>Admins can manage users, equipment inventory, and system reports.</p>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>

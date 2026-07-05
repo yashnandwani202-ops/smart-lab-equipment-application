@@ -1,0 +1,124 @@
+body{
+    font-family: 'Segoe UI', sans-serif;
+    background:#f5f7fb;
+    color:#222;
+}
+
+/* Navbar */
+
+.navbar{
+    padding:18px 0;
+    background:#0f172a !important;
+}
+
+.navbar-brand{
+    font-size:28px;
+    font-weight:bold;
+}
+
+.nav-link{
+    color:white !important;
+    margin-left:18px;
+    transition:.3s;
+}
+
+.nav-link:hover{
+    color:#38bdf8 !important;
+}
+
+/* Hero Section */
+
+.hero-section{
+    padding:80px 0;
+}
+
+.hero-badge{
+    display:inline-block;
+    padding:8px 18px;
+    background:#dbeafe;
+    color:#2563eb;
+    border-radius:30px;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+.hero-title{
+    font-size:58px;
+    font-weight:800;
+    line-height:1.2;
+}
+
+.hero-title span{
+    color:#2563eb;
+}
+
+.hero-text{
+    font-size:20px;
+    color:#555;
+    margin:25px 0;
+}
+
+.hero-buttons .btn{
+    border-radius:12px;
+    padding:12px 28px;
+    font-weight:600;
+}
+
+/* Right Card */
+
+.hero-card{
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 20px 50px rgba(0,0,0,.08);
+}
+
+.hero-card h4{
+    margin-bottom:30px;
+    font-weight:bold;
+}
+
+.overview-item{
+    display:flex;
+    justify-content:space-between;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
+}
+
+.overview-item:last-child{
+    border:none;
+}
+
+/* Features */
+
+.features-section{
+    padding:80px 0;
+}
+
+.section-title{
+    font-size:40px;
+    font-weight:700;
+}
+
+.feature-card{
+    background:white;
+    border-radius:18px;
+    padding:35px;
+    text-align:center;
+    transition:.3s;
+    box-shadow:0 15px 40px rgba(0,0,0,.06);
+    height:100%;
+}
+
+.feature-card:hover{
+    transform:translateY(-10px);
+}
+
+.feature-card h5{
+    font-size:24px;
+    margin-bottom:15px;
+}
+
+.feature-card p{
+    color:#666;
+}
