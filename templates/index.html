@@ -2,56 +2,98 @@
 
 {% block content %}
 
-<section class="hero-section">
+<section class="home-hero">
     <div class="container">
-        <div class="row align-items-center min-vh-100">
+        <div class="row align-items-center">
 
-            <div class="col-md-6">
-                <span class="hero-badge">Smart Lab Management</span>
+            <div class="col-lg-6">
+                <span class="hero-label">Smart Laboratory Management</span>
 
-                <h1 class="hero-title">
-                    Manage Lab Equipment Smarter with <span>LabEase</span>
+                <h1 class="home-title">
+                    Manage lab equipment with confidence.
                 </h1>
 
-                <p class="hero-text">
-                    A modern platform for lab equipment booking, inventory tracking,
-                    faculty approvals, and admin management.
+                <p class="home-subtitle">
+                    LabNexa helps institutions manage equipment inventory,
+                    student bookings, faculty approvals, and admin reports
+                    from one secure platform.
                 </p>
 
-                <div class="hero-buttons">
-                    <a href="/register" class="btn btn-primary btn-lg me-3">
-                        Get Started
-                    </a>
+                <div class="mt-4">
 
-                    <a href="/login" class="btn btn-outline-primary btn-lg">
-                        Login
-                    </a>
-                </div>
+{% if "user_id" in session %}
+
+    {% if session["role"] == "student" %}
+        <a href="/student" class="btn btn-primary btn-lg rounded-pill px-4">
+            Go to Dashboard
+        </a>
+
+    {% elif session["role"] == "faculty" %}
+        <a href="/faculty" class="btn btn-primary btn-lg rounded-pill px-4">
+            Go to Dashboard
+        </a>
+
+    {% elif session["role"] == "admin" %}
+        <a href="/admin" class="btn btn-primary btn-lg rounded-pill px-4">
+            Go to Dashboard
+        </a>
+    {% endif %}
+
+{% else %}
+
+    <a href="/register" class="btn btn-primary btn-lg rounded-pill px-4 me-2">
+        Get Started
+    </a>
+
+    <a href="/login" class="btn btn-outline-primary btn-lg rounded-pill px-4">
+        Login
+    </a>
+
+{% endif %}
+
+</div>
             </div>
 
-            <div class="col-md-6">
-                <div class="hero-card">
-                    <h4>System Overview</h4>
+            <div class="col-lg-6 mt-5 mt-lg-0">
+                <div class="mock-dashboard">
 
-                    <div class="overview-item">
-                        <span>Equipment Inventory</span>
-                        <strong>Live Tracking</strong>
+                    <div class="mock-top">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
 
-                    <div class="overview-item">
-                        <span>Booking Requests</span>
-                        <strong>Faculty Approval</strong>
+                    <h5>LabNexa Dashboard</h5>
+
+                    <div class="mock-card">
+                        <div>
+                            <small>Available Equipment</small>
+                            <h3>120</h3>
+                        </div>
+                        <i class="bi bi-box-seam"></i>
                     </div>
 
-                    <div class="overview-item">
-                        <span>User Roles</span>
-                        <strong>Student · Faculty · Admin</strong>
+                    <div class="mock-row">
+                        <div>
+                            <small>Pending</small>
+                            <h4>12</h4>
+                        </div>
+                        <div>
+                            <small>Approved</small>
+                            <h4>148</h4>
+                        </div>
                     </div>
 
-                    <div class="overview-item">
-                        <span>Reports</span>
-                        <strong>Real-time Insights</strong>
+                    <div class="activity-item">
+                        <span>Arduino Uno</span>
+                        <strong>Available</strong>
                     </div>
+
+                    <div class="activity-item">
+                        <span>Oscilloscope</span>
+                        <strong>Booked</strong>
+                    </div>
+
                 </div>
             </div>
 
@@ -59,35 +101,48 @@
     </div>
 </section>
 
-<section class="features-section">
+<section class="home-features">
     <div class="container">
-        <h2 class="section-title text-center">Why LabEase?</h2>
+        <div class="text-center mb-5">
+            <span class="hero-label">Core Features</span>
+            <h2 class="section-heading">Built for students, faculty, and admins.</h2>
+        </div>
 
-        <div class="row mt-5">
+        <div class="row g-4">
 
             <div class="col-md-4">
-                <div class="feature-card">
-                    <h5>Easy Booking</h5>
-                    <p>Students can browse available equipment and request bookings easily.</p>
+                <div class="clean-card">
+                    <i class="bi bi-calendar-check"></i>
+                    <h5>Student Booking</h5>
+                    <p>Students can view available lab equipment and submit booking requests.</p>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="feature-card">
+                <div class="clean-card">
+                    <i class="bi bi-check2-circle"></i>
                     <h5>Faculty Approval</h5>
-                    <p>Faculty members can approve or reject student equipment requests.</p>
+                    <p>Faculty can approve or reject equipment requests with real-time status updates.</p>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="feature-card">
-                    <h5>Admin Control</h5>
-                    <p>Admins can manage users, equipment inventory, and system reports.</p>
+                <div class="clean-card">
+                    <i class="bi bi-speedometer2"></i>
+                    <h5>Admin Dashboard</h5>
+                    <p>Admins can manage users, equipment, reports, and inventory from one place.</p>
                 </div>
             </div>
 
         </div>
     </div>
 </section>
+
+<footer class="home-footer">
+    <div class="container text-center">
+        <h5>LabNexa</h5>
+        <p>Smart Laboratory Equipment Management Platform</p>
+    </div>
+</footer>
 
 {% endblock %}

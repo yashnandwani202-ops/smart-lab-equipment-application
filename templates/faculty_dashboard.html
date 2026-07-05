@@ -2,47 +2,80 @@
 
 {% block content %}
 
-<div class="container mt-5">
-    <h2 class="mb-4">Faculty Dashboard</h2>
-    <a href="/logout" class="btn btn-danger mb-3">Logout</a>
+<div class="container py-5">
 
-    <div class="alert alert-info">
-        Welcome, {{ session["full_name"] }}! Manage equipment requests from students.
+    <div class="card shadow-lg border-0 mb-4">
+        <div class="card-body p-4">
+            <h2 class="fw-bold">
+                Welcome back, {{ session["full_name"] }} 👋
+            </h2>
+
+            <p class="text-muted mb-0">
+                Review and manage student equipment booking requests.
+            </p>
+        </div>
     </div>
 
-    <div class="row">
+    <h4 class="mb-4 fw-bold">Faculty Actions</h4>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5>Pending Requests</h5>
-                    <p>View student booking requests.</p>
-                    <a href="/faculty-requests" class="btn btn-primary">View</a>
+    <div class="row g-4">
+
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-clipboard-data display-4 text-primary"></i>
+                    <h4 class="mt-3">Booking Requests</h4>
+                    <p class="text-muted">View pending, approved, and rejected requests.</p>
+                    <a href="/faculty-requests" class="btn btn-primary rounded-pill px-4">Review</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5>Approved Bookings</h5>
-                    <p>View approved equipment bookings.</p>
-                    <a href="#" class="btn btn-primary">View</a>
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-check2-circle display-4 text-success"></i>
+                    <h4 class="mt-3">Approvals</h4>
+                    <p class="text-muted">Approve valid requests based on equipment availability.</p>
+                    <a href="/faculty-requests" class="btn btn-success rounded-pill px-4">Open</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5>Faculty Profile</h5>
-                    <p>View your account details.</p>
-                    <a href="#" class="btn btn-primary">View</a>
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-person-badge display-4 text-info"></i>
+                    <h4 class="mt-3">Faculty Profile</h4>
+                    <p class="text-muted">View your account and role information.</p>
+                    <button class="btn btn-info text-white rounded-pill px-4" disabled>Coming Soon</button>
                 </div>
             </div>
         </div>
 
     </div>
+
+    <div class="card shadow-sm border-0 mt-5">
+        <div class="card-body">
+            <h4 class="fw-bold mb-3">Faculty Information</h4>
+
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <td>{{ session["full_name"] }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ session["email"] }}</td>
+                </tr>
+                <tr>
+                    <th>Role</th>
+                    <td>{{ session["role"]|title }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
 </div>
 
 {% endblock %}

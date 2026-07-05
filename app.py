@@ -391,6 +391,7 @@ def add_user():
         full_name = request.form["full_name"]
         email = request.form["email"]
         password = request.form["password"]
+        hashed_password = generate_password_hash(password)
         role = request.form["role"]
         status = request.form["status"]
 
@@ -402,7 +403,7 @@ def add_user():
             (full_name, email, password, role, status)
             VALUES (%s, %s, %s, %s, %s)
             """,
-            (full_name, email, password, role, status)
+           (full_name, email, hashed_password, role, status) 
         )
 
         mysql.connection.commit()
@@ -425,6 +426,7 @@ def edit_user(user_id):
         full_name = request.form["full_name"]
         email = request.form["email"]
         password = request.form["password"]
+        hashed_password = generate_password_hash(password)
         role = request.form["role"]
         status = request.form["status"]
 
@@ -438,7 +440,7 @@ def edit_user(user_id):
                 status=%s
             WHERE id=%s
             """,
-            (full_name, email, password, role, status, user_id)
+            (full_name, email, hashed_password, role, status, user_id)
         )
 
         mysql.connection.commit()

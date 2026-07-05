@@ -2,14 +2,16 @@
 
 {% block content %}
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+<section class="auth-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
 
-            <div class="card shadow">
-                <div class="card-body">
-
-                    <h2 class="text-center mb-4">Create Account</h2>
+                <div class="auth-card">
+                    <div class="text-center mb-4">
+                        <h2>Create Account</h2>
+                        <p>Join LabNexa and start managing lab bookings</p>
+                    </div>
 
                     {% with messages = get_flashed_messages() %}
                         {% if messages %}
@@ -23,42 +25,43 @@
 
                         <div class="mb-3">
                             <label class="form-label">Full Name</label>
-                            <input type="text" name="full_name" class="form-control" required>
+                            <input type="text" name="full_name" class="form-control auth-input" placeholder="Enter your full name" required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" required>
+                            <label class="form-label">Email Address</label>
+                            <input type="email" name="email" class="form-control auth-input" placeholder="Enter your email" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" required>
+                            <input type="password" name="password" class="form-control auth-input" placeholder="Create a password" required>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label class="form-label">Role</label>
-                            <select name="role" class="form-select" required>
+                            <select name="role" class="form-select auth-input" required>
                                 <option value="student">Student</option>
                                 <option value="faculty">Faculty</option>
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-success w-100">
-                            Register
+                        <button type="submit" class="btn btn-primary w-100 auth-btn">
+                            Create Account
                         </button>
 
                     </form>
 
-                    <div class="text-center mt-3">
-                        Already have an account? <a href="/login">Login</a>
+                    <div class="text-center mt-4">
+                        <span class="text-muted">Already have an account?</span>
+                        <a href="/login" class="fw-bold">Login</a>
                     </div>
 
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
-</div>
+</section>
 
 {% endblock %}

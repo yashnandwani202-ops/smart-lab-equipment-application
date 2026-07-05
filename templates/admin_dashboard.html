@@ -2,47 +2,58 @@
 
 {% block content %}
 
-<div class="container mt-5">
-    <h2 class="mb-4">Admin Dashboard</h2>
-    <a href="/logout" class="btn btn-danger mb-3">Logout</a>
+<div class="container py-5">
 
-    <div class="alert alert-warning">
-        Welcome, {{ session["full_name"] }}! Manage users, equipment, and reports.
+    <div class="card shadow-lg border-0 mb-4">
+        <div class="card-body p-4">
+            <h2 class="fw-bold">
+                Welcome back, {{ session["full_name"] }} 👋
+            </h2>
+            <p class="text-muted mb-0">
+                Manage users, equipment inventory, and system reports from one admin panel.
+            </p>
+        </div>
     </div>
 
-    <div class="row">
+    <h4 class="mb-4 fw-bold">Admin Control Panel</h4>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5>Manage Equipment</h5>
-                    <p>Add, update, or remove lab equipment.</p>
-                    <a href="/admin-equipment" class="btn btn-primary">Manage</a>
+    <div class="row g-4">
+
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-box-seam display-4 text-primary"></i>
+                    <h4 class="mt-3">Equipment</h4>
+                    <p class="text-muted">Add, update, or remove lab equipment.</p>
+                    <a href="/admin-equipment" class="btn btn-primary rounded-pill px-4">Manage</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5>Manage Users</h5>
-                    <p>View and manage student/faculty accounts.</p>
-                    <a href="/admin-users" class="btn btn-primary">Manage</a>
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-people display-4 text-success"></i>
+                    <h4 class="mt-3">Users</h4>
+                    <p class="text-muted">Manage student, faculty, and admin accounts.</p>
+                    <a href="/admin-users" class="btn btn-success rounded-pill px-4">Manage</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5>Reports</h5>
-                    <p>View system usage and booking reports.</p>
-                    <a href="/admin-reports" class="btn btn-primary">View</a>
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-bar-chart-line display-4 text-info"></i>
+                    <h4 class="mt-3">Reports</h4>
+                    <p class="text-muted">View system usage and booking statistics.</p>
+                    <a href="/admin-reports" class="btn btn-info text-white rounded-pill px-4">View</a>
                 </div>
             </div>
         </div>
 
     </div>
+
 </div>
 
 {% endblock %}
