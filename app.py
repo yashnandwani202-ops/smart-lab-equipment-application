@@ -426,22 +426,36 @@ def edit_user(user_id):
         full_name = request.form["full_name"]
         email = request.form["email"]
         password = request.form["password"]
-        hashed_password = generate_password_hash(password)
         role = request.form["role"]
         status = request.form["status"]
 
-        cursor.execute(
-            """
-            UPDATE users
-            SET full_name=%s,
-                email=%s,
-                password=%s,
-                role=%s,
-                status=%s
-            WHERE id=%s
-            """,
-            (full_name, email, hashed_password, role, status, user_id)
-        )
+        if password:
+            hashed_password = generate_password_hash(password)
+
+            cursor.execute(
+                """
+                UPDATE users
+                SET full_name=%s,
+                    email=%s,
+                    password=%s,
+                    role=%s,
+                    status=%s
+                WHERE id=%s
+                """,
+                (full_name, email, hashed_password, role, status, user_id)
+            )
+        else:
+            cursor.execute(
+                """
+                UPDATE users
+                SET full_name=%s,
+                    email=%s,
+                    role=%s,
+                    status=%s
+                WHERE id=%s
+                """,
+                (full_name, email, role, status, user_id)
+            )
 
         mysql.connection.commit()
         cursor.close()
@@ -454,7 +468,6 @@ def edit_user(user_id):
     )
 
     user = cursor.fetchone()
-
     cursor.close()
 
     return render_template("edit_user.html", user=user)

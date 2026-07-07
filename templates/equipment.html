@@ -2,59 +2,80 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container py-5">
 
-    <h2 class="mb-4">Available Lab Equipment</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Available Equipment</h2>
+            <p class="text-muted mb-0">Browse and book lab equipment.</p>
+        </div>
+
+        <a href="/student" class="btn btn-outline-secondary rounded-pill px-4">
+            Back
+        </a>
+    </div>
 
     {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <div class="alert alert-success">
+            <div class="alert alert-success rounded-4">
                 {{ messages[0] }}
             </div>
         {% endif %}
     {% endwith %}
 
-    <table class="table table-bordered table-striped">
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
 
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Equipment Name</th>
-                <th>Category</th>
-                <th>Total Quantity</th>
-                <th>Available Quantity</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
 
-        <tbody>
-            {% for item in equipment %}
-            <tr>
-                <td>{{ item[0] }}</td>
-                <td>{{ item[1] }}</td>
-                <td>{{ item[2] }}</td>
-                <td>{{ item[3] }}</td>
-                <td>{{ item[4] }}</td>
-                <td>{{ item[5] }}</td>
-                <td>
-                 {% if item[4] > 0 %}
-                 <a href="/book/{{ item[0] }}" class="btn btn-success btn-sm">
-                 Book
-               </a>
-            {% else %}
-           <button class="btn btn-secondary btn-sm" disabled>
-            Unavailable
-             </button>
-        {% endif %}
-        </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Equipment</th>
+                            <th>Category</th>
+                            <th>Total</th>
+                            <th>Available</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-    </table>
+                    <tbody>
+                        {% for item in equipment %}
+                        <tr>
+                            <td>{{ item[0] }}</td>
+                            <td class="fw-semibold">{{ item[1] }}</td>
+                            <td>{{ item[2] }}</td>
+                            <td>{{ item[3] }}</td>
+                            <td>{{ item[4] }}</td>
+                            <td>
+                                {% if item[4] > 0 %}
+                                    <span class="badge bg-success rounded-pill">Available</span>
+                                {% else %}
+                                    <span class="badge bg-secondary rounded-pill">Unavailable</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if item[4] > 0 %}
+                                    <a href="/book/{{ item[0] }}" class="btn btn-success btn-sm rounded-pill px-3">
+                                        Book
+                                    </a>
+                                {% else %}
+                                    <button class="btn btn-secondary btn-sm rounded-pill px-3" disabled>
+                                        Unavailable
+                                    </button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
 
-    <a href="/student" class="btn btn-secondary">Back to Dashboard</a>
+                </table>
+            </div>
+
+        </div>
+    </div>
 
 </div>
 

@@ -2,47 +2,126 @@
 
 {% block content %}
 
-<div class="container mt-5">
-    <h2 class="mb-4">Edit User</h2>
+<section class="auth-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7">
 
-    <form method="POST">
+                <div class="auth-card">
 
-        <div class="mb-3">
-            <label class="form-label">Full Name</label>
-            <input type="text" name="full_name" class="form-control" value="{{ user[1] }}" required>
+                    <div class="text-center mb-4">
+                        <h2>Edit User</h2>
+                        <p>Update account details and permissions</p>
+                    </div>
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text"
+                                   name="full_name"
+                                   class="form-control auth-input"
+                                   value="{{ user[1] }}"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email"
+                                   name="email"
+                                   class="form-control auth-input"
+                                   value="{{ user[2] }}"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                New Password
+                            </label>
+
+                            <input type="password"
+                                   name="password"
+                                   class="form-control auth-input"
+                                   placeholder="Leave blank to keep current password">
+
+                            <small class="text-muted">
+                                Leave this field empty if you don't want to change the password.
+                            </small>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">Role</label>
+
+                                <select name="role" class="form-select auth-input">
+
+                                    <option value="student"
+                                    {% if user[4]=="student" %}selected{% endif %}>
+                                    Student
+                                    </option>
+
+                                    <option value="faculty"
+                                    {% if user[4]=="faculty" %}selected{% endif %}>
+                                    Faculty
+                                    </option>
+
+                                    <option value="admin"
+                                    {% if user[4]=="admin" %}selected{% endif %}>
+                                    Admin
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label">Status</label>
+
+                                <select name="status" class="form-select auth-input">
+
+                                    <option value="Active"
+                                    {% if user[5]=="Active" %}selected{% endif %}>
+                                    Active
+                                    </option>
+
+                                    <option value="Inactive"
+                                    {% if user[5]=="Inactive" %}selected{% endif %}>
+                                    Inactive
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-warning auth-btn flex-fill">
+
+                                Update User
+
+                            </button>
+
+                            <a href="/admin-users"
+                               class="btn btn-outline-secondary auth-btn flex-fill">
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" value="{{ user[2] }}" required>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="text" name="password" class="form-control" value="{{ user[3] }}" required>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Role</label>
-            <select name="role" class="form-select" required>
-                <option value="student" {% if user[4] == "student" %}selected{% endif %}>Student</option>
-                <option value="faculty" {% if user[4] == "faculty" %}selected{% endif %}>Faculty</option>
-                <option value="admin" {% if user[4] == "admin" %}selected{% endif %}>Admin</option>
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Status</label>
-            <select name="status" class="form-select" required>
-                <option value="Active" {% if user[5] == "Active" %}selected{% endif %}>Active</option>
-                <option value="Inactive" {% if user[5] == "Inactive" %}selected{% endif %}>Inactive</option>
-            </select>
-        </div>
-
-        <button type="submit" class="btn btn-warning">Update User</button>
-        <a href="/admin-users" class="btn btn-secondary">Cancel</a>
-
-    </form>
-</div>
+    </div>
+</section>
 
 {% endblock %}

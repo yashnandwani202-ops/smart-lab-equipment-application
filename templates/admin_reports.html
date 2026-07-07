@@ -2,71 +2,70 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container py-5">
 
-    <h2 class="mb-4">System Reports</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">System Reports</h2>
+            <p class="text-muted mb-0">Overview of users, equipment, and booking activity.</p>
+        </div>
 
-    <div class="row">
+        <a href="/admin" class="btn btn-outline-secondary rounded-pill px-4">
+            Back
+        </a>
+    </div>
 
-        <div class="col-md-4 mb-4">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <h5>Total Users</h5>
-                    <h2>{{ total_users }}</h2>
-                </div>
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center p-4">
+                <i class="bi bi-people display-5 text-primary"></i>
+                <h5 class="mt-3 text-muted">Total Users</h5>
+                <h2 class="fw-bold">{{ total_users }}</h2>
             </div>
         </div>
 
-        <div class="col-md-4 mb-4">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <h5>Total Equipment</h5>
-                    <h2>{{ total_equipment }}</h2>
-                </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center p-4">
+                <i class="bi bi-box-seam display-5 text-success"></i>
+                <h5 class="mt-3 text-muted">Total Equipment</h5>
+                <h2 class="fw-bold">{{ total_equipment }}</h2>
             </div>
         </div>
 
-        <div class="col-md-4 mb-4">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <h5>Total Bookings</h5>
-                    <h2>{{ total_bookings }}</h2>
-                </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center p-4">
+                <i class="bi bi-calendar-check display-5 text-info"></i>
+                <h5 class="mt-3 text-muted">Total Bookings</h5>
+                <h2 class="fw-bold">{{ total_bookings }}</h2>
             </div>
         </div>
 
-        <div class="col-md-4 mb-4">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <h5>Pending Requests</h5>
-                    <h2>{{ pending }}</h2>
-                </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center p-4">
+                <i class="bi bi-hourglass-split display-5 text-warning"></i>
+                <h5 class="mt-3 text-muted">Pending Requests</h5>
+                <h2 class="fw-bold">{{ pending }}</h2>
             </div>
         </div>
 
-        <div class="col-md-4 mb-4">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <h5>Approved Bookings</h5>
-                    <h2>{{ approved }}</h2>
-                </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center p-4">
+                <i class="bi bi-check-circle display-5 text-success"></i>
+                <h5 class="mt-3 text-muted">Approved Bookings</h5>
+                <h2 class="fw-bold">{{ approved }}</h2>
             </div>
         </div>
 
-        <div class="col-md-4 mb-4">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <h5>Rejected Bookings</h5>
-                    <h2>{{ rejected }}</h2>
-                </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center p-4">
+                <i class="bi bi-x-circle display-5 text-danger"></i>
+                <h5 class="mt-3 text-muted">Rejected Bookings</h5>
+                <h2 class="fw-bold">{{ rejected }}</h2>
             </div>
         </div>
 
     </div>
-
-    <a href="/admin" class="btn btn-secondary">
-        Back to Dashboard
-    </a>
 
 </div>
 
