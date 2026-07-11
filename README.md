@@ -77,10 +77,9 @@ The system provides separate dashboards and permissions for **Students**, **Facu
 | Category | Technology |
 |----------|------------|
 | Backend | Python, Flask |
-| Frontend | HTML5, CSS3, Bootstrap 5 |
+| Frontend | HTML5, CSS3, Bootstrap 5, Chart.js |
 | Database | MySQL |
 | Template Engine | Jinja2 |
-| Charts | Chart.js |
 | PDF Generation | ReportLab |
 | Version Control | Git & GitHub |
 
@@ -111,61 +110,55 @@ LabNexa
 
 ## 🏠 Homepage
 
-![Homepage](screenshots/home_page.png)
+![Homepage](static/screenshots/Homepage.png)
 
 ---
 
 ## 👨‍🎓 Student Dashboard
 
-![Student Dashboard](screenshots/student_dashboard.png)
+![Student Dashboard](static/screenshots/student-dashboard.png)
 
 ---
 
 ## 👨‍🏫 Faculty Dashboard
 
-![Faculty Dashboard](screenshots/faculty_dashboard.png)
+![Faculty Dashboard](static/screenshots/faculty-dashboard.png)
 
 ---
 
 ## 👨‍💼 Admin Dashboard
 
-![Admin Dashboard](screenshots/admin_dashboard.png)
+![Admin Dashboard](static/screenshots/admin-dashboard.png)
 
 ---
 
 ## 📦 Equipment Management
 
-![Equipment Management](screenshots/manage_equipment.png)
+![Equipment Management](static/screenshots/manage-equipment.png)
 
 ---
 
 ## 👥 User Management
 
-![User Management](screenshots/manage_users.png)
-
----
-
-## 🔍 Equipment Search & Filters
-
-![Equipment Search](screenshots/equipment_search_filter.png)
+![User Management](static/screenshots/manage-users.png)
 
 ---
 
 ## 📊 Reports Dashboard
 
-![Reports Dashboard](screenshots/reports_dashboard.png)
+![Reports Dashboard](static/screenshots/reports.png)
 
 ---
 
 ## 📈 Booking Analytics Dashboard
 
-![Booking Analytics](screenshots/booking_analytics_chart.png)
+![Booking Analytics](static/screenshots/booking_analytics_chart.png)
 
 ---
 
 ## 📄 PDF Report Generation
 
-![PDF Report](screenshots/pdf_report.png)
+![PDF Report](static/screenshots/pdf_report.png)
 
 ---
 
@@ -225,7 +218,7 @@ python app.py
 
 ### Open in your browser
 
-```text
+```
 http://127.0.0.1:5000
 ```
 
