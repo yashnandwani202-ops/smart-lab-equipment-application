@@ -7,7 +7,9 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="fw-bold mb-1">System Reports</h2>
-            <p class="text-muted mb-0">Overview of users, equipment, and booking activity.</p>
+            <p class="text-muted mb-0">
+                Overview of users, equipment, and booking activity.
+            </p>
         </div>
 
         <a href="/admin" class="btn btn-outline-secondary rounded-pill px-4">
@@ -67,6 +69,79 @@
 
     </div>
 
+    <hr class="my-5">
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <h4 class="text-center fw-bold mb-4">
+                Booking Analytics
+            </h4>
+
+            <div class="mx-auto" style="max-width:420px; height:420px;">
+                <canvas id="bookingChart"></canvas>
+            </div>
+
+        </div>
+    </div>
+
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ctx = document.getElementById("bookingChart");
+
+new Chart(ctx, {
+
+    type: "doughnut",
+
+    data: {
+
+        labels: [
+            "Pending",
+            "Approved",
+            "Rejected"
+        ],
+
+        datasets: [{
+
+            data: [
+                {{ pending | tojson }},
+                {{ approved | tojson }},
+                {{ rejected | tojson }}
+            ],
+
+            backgroundColor: [
+                "#ffc107",
+                "#198754",
+                "#dc3545"
+            ],
+
+            hoverOffset: 10
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+        maintainAspectRatio: false,
+
+        plugins: {
+
+            legend: {
+                position: "bottom"
+            }
+
+        }
+
+    }
+
+});
+
+</script>
 
 {% endblock %}
