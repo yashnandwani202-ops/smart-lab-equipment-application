@@ -1,58 +1,74 @@
 # 🧪 LabNexa
 
-> A modern Laboratory Equipment Management System built with **Flask** and **MySQL** that streamlines equipment booking, approval workflows, inventory management, and user administration.
+A modern, role-based **Laboratory Equipment Management System** built using **Flask** and **MySQL**. LabNexa streamlines laboratory equipment booking, approval workflows, inventory management, analytics, and PDF report generation through a clean and responsive web interface.
 
 ---
 
-## 📌 Overview
+# 📌 Overview
 
-LabNexa is a role-based web application developed to simplify the management of laboratory equipment in educational institutions.
+LabNexa is a full-stack web application developed to simplify the management of laboratory equipment in educational institutions.
 
-The system allows:
+The system provides separate dashboards and permissions for **Students**, **Faculty**, and **Administrators**, ensuring secure and organized management of laboratory resources.
 
-- 👨‍🎓 Students to browse and request laboratory equipment.
-- 👨‍🏫 Faculty members to approve or reject booking requests.
-- 👨‍💼 Administrators to manage equipment, users, inventory, and system reports.
+---
+
+# 🌟 Project Highlights
+
+- 🔐 Secure Authentication with Password Hashing
+- 👥 Role-Based Access Control
+- 📦 Equipment Management (CRUD)
+- 👤 User Management (CRUD)
+- 🔍 Equipment Search & Smart Filters
+- 📊 Interactive Booking Analytics Dashboard
+- 📄 Downloadable PDF Reports
+- 📱 Responsive User Interface
+- 🛡️ Session-Based Authentication
 
 ---
 
 # ✨ Features
 
-### 👨‍🎓 Student Module
+## 👨‍🎓 Student Module
 
 - Secure Registration & Login
 - Browse Available Equipment
+- Search Equipment
+- Filter by Category
+- Filter by Availability
 - Book Laboratory Equipment
 - View Booking History
 - Track Booking Status
 
 ---
 
-### 👨‍🏫 Faculty Module
+## 👨‍🏫 Faculty Module
 
 - Secure Login
-- View Pending Requests
-- Approve Bookings
-- Reject Bookings
+- View Equipment Requests
+- Approve Booking Requests
+- Reject Booking Requests
 
 ---
 
-### 👨‍💼 Admin Module
+## 👨‍💼 Admin Module
 
-- Dashboard
+- Admin Dashboard
 - Equipment Management (CRUD)
 - User Management (CRUD)
 - Inventory Management
-- System Reports
+- View System Reports
+- Booking Analytics Dashboard
+- Generate PDF Reports
 
 ---
 
-### 🔐 Security
+# 🔐 Security Features
 
-- Password Hashing (Werkzeug)
-- Session Authentication
+- Password Hashing using Werkzeug
+- Session-Based Authentication
 - Role-Based Access Control
 - Protected Routes
+- Secure Login System
 
 ---
 
@@ -64,6 +80,8 @@ The system allows:
 | Frontend | HTML5, CSS3, Bootstrap 5 |
 | Database | MySQL |
 | Template Engine | Jinja2 |
+| Charts | Chart.js |
+| PDF Generation | ReportLab |
 | Version Control | Git & GitHub |
 
 ---
@@ -76,8 +94,7 @@ LabNexa
 ├── static
 │   ├── css
 │   ├── images
-│   ├── js
-│   └── screenshots
+│   ├── screenshots
 │
 ├── templates
 │
@@ -94,43 +111,61 @@ LabNexa
 
 ## 🏠 Homepage
 
-![Homepage](static/screenshots/homepage.png)
+![Homepage](screenshots/home_page.png)
 
 ---
 
 ## 👨‍🎓 Student Dashboard
 
-![Student Dashboard](static/screenshots/student-dashboard.png)
+![Student Dashboard](screenshots/student_dashboard.png)
 
 ---
 
 ## 👨‍🏫 Faculty Dashboard
 
-![Faculty Dashboard](static/screenshots/faculty-dashboard.png)
+![Faculty Dashboard](screenshots/faculty_dashboard.png)
 
 ---
 
 ## 👨‍💼 Admin Dashboard
 
-![Admin Dashboard](static/screenshots/admin-dashboard.png)
+![Admin Dashboard](screenshots/admin_dashboard.png)
 
 ---
 
 ## 📦 Equipment Management
 
-![Equipment](static/screenshots/manage-equipment.png)
+![Equipment Management](screenshots/manage_equipment.png)
 
 ---
 
 ## 👥 User Management
 
-![Users](static/screenshots/manage-users.png)
+![User Management](screenshots/manage_users.png)
+
+---
+
+## 🔍 Equipment Search & Filters
+
+![Equipment Search](screenshots/equipment_search_filter.png)
 
 ---
 
 ## 📊 Reports Dashboard
 
-![Reports](static/screenshots/reports.png)
+![Reports Dashboard](screenshots/reports_dashboard.png)
+
+---
+
+## 📈 Booking Analytics Dashboard
+
+![Booking Analytics](screenshots/booking_analytics_chart.png)
+
+---
+
+## 📄 PDF Report Generation
+
+![PDF Report](screenshots/pdf_report.png)
 
 ---
 
@@ -138,61 +173,59 @@ LabNexa
 
 | Role | Responsibilities |
 |------|------------------|
-| Student | Register, Login, Book Equipment, View Bookings |
-| Faculty | Review, Approve & Reject Requests |
-| Administrator | Manage Users, Equipment, Inventory & Reports |
+| Student | Register, Login, Search Equipment, Book Equipment, View Booking History |
+| Faculty | View Requests, Approve Bookings, Reject Bookings |
+| Administrator | Manage Users, Equipment, Inventory, Reports & Analytics |
 
 ---
 
 # 🚀 Installation
 
-Clone the repository
+### Clone the repository
 
 ```bash
 git clone https://github.com/yashnandwani202-ops/labnexa.git
 ```
 
-Go to the project
+### Navigate to the project
 
 ```bash
 cd labnexa
 ```
 
-Create a virtual environment
+### Create a virtual environment
 
 ```bash
 python -m venv venv
 ```
 
-Activate it
+### Activate the virtual environment
 
-Windows
+**Windows**
 
 ```bash
 venv\Scripts\activate
 ```
 
-Install dependencies
+### Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Import the database
+### Import the database
 
-```
-schema.sql
-```
+Import the `schema.sql` file into MySQL.
 
-Run the application
+### Run the application
 
 ```bash
 python app.py
 ```
 
-Open
+### Open in your browser
 
-```
+```text
 http://127.0.0.1:5000
 ```
 
@@ -200,12 +233,13 @@ http://127.0.0.1:5000
 
 # 🔮 Future Enhancements
 
-- Equipment Search
 - QR Code Based Equipment Checkout
 - Email Notifications
-- Dashboard Analytics
-- Equipment Images
-- Mobile Responsive Improvements
+- Equipment Image Upload
+- Equipment Maintenance Module
+- Equipment Reservation Calendar
+- REST API for Mobile Application
+- Automatic Database Backup
 
 ---
 
@@ -215,9 +249,12 @@ http://127.0.0.1:5000
 
 B.Tech Electronics & Computer Engineering (ECM)
 
-GitHub:
-https://github.com/yashnandwani202-ops
+GitHub: https://github.com/yashnandwani202-ops
 
 ---
 
-## ⭐ If you found this project useful, consider giving it a star.
+# ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub.
+
+Thank you for visiting **LabNexa**!
