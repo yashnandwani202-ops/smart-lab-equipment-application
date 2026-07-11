@@ -103,15 +103,48 @@ def student_dashboard():
 
 @app.route("/equipment")
 def equipment():
+
     if not require_role("student"):
         return redirect(url_for("login"))
 
+    search = request.args.get("search", "")
+    category = request.args.get("category", "")
+    availability = request.args.get("availability", "")
+
+    query = "SELECT * FROM equipment WHERE 1=1"
+    values = []
+
+    if search:
+        query += " AND (equipment_name LIKE %s OR category LIKE %s)"
+        values.extend([f"%{search}%", f"%{search}%"])
+
+    if category:
+        query += " AND category = %s"
+        values.append(category)
+
+    if availability == "available":
+        query += " AND available_quantity > 0"
+
+    elif availability == "unavailable":
+        query += " AND available_quantity = 0"
+
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT * FROM equipment")
+    cursor.execute(query, tuple(values))
     equipment = cursor.fetchall()
+
+    cursor.execute("SELECT DISTINCT category FROM equipment")
+    categories = cursor.fetchall()
+
     cursor.close()
 
-    return render_template("equipment.html", equipment=equipment)
+    return render_template(
+        "equipment.html",
+        equipment=equipment,
+        search=search,
+        category=category,
+        availability=availability,
+        categories=categories
+    )
 
 
 @app.route("/book/<int:equipment_id>")

@@ -15,6 +15,59 @@
         </a>
     </div>
 
+    <form method="GET" action="/equipment" class="mb-4">
+    <div class="row g-3">
+
+        <div class="col-md-5">
+            <input
+                type="text"
+                name="search"
+                class="form-control"
+                placeholder="Search by equipment name or category..."
+                value="{{ search }}">
+        </div>
+
+        <div class="col-md-3">
+            <select name="category" class="form-select">
+                <option value="">All Categories</option>
+
+                {% for item in categories %}
+                    <option value="{{ item[0] }}"
+                        {% if category == item[0] %}selected{% endif %}>
+                        {{ item[0] }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <select name="availability" class="form-select">
+                <option value="">All Status</option>
+
+                <option value="available"
+                    {% if availability == "available" %}selected{% endif %}>
+                    Available
+                </option>
+
+                <option value="unavailable"
+                    {% if availability == "unavailable" %}selected{% endif %}>
+                    Unavailable
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-2 d-flex gap-2">
+            <button type="submit" class="btn btn-primary flex-fill">
+                Filter
+            </button>
+
+            <a href="/equipment" class="btn btn-outline-secondary flex-fill">
+                Reset
+            </a>
+        </div>
+
+    </div>
+</form>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <div class="alert alert-success rounded-4">
@@ -42,34 +95,58 @@
                     </thead>
 
                     <tbody>
-                        {% for item in equipment %}
-                        <tr>
-                            <td>{{ item[0] }}</td>
-                            <td class="fw-semibold">{{ item[1] }}</td>
-                            <td>{{ item[2] }}</td>
-                            <td>{{ item[3] }}</td>
-                            <td>{{ item[4] }}</td>
-                            <td>
-                                {% if item[4] > 0 %}
-                                    <span class="badge bg-success rounded-pill">Available</span>
-                                {% else %}
-                                    <span class="badge bg-secondary rounded-pill">Unavailable</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if item[4] > 0 %}
-                                    <a href="/book/{{ item[0] }}" class="btn btn-success btn-sm rounded-pill px-3">
-                                        Book
-                                    </a>
-                                {% else %}
-                                    <button class="btn btn-secondary btn-sm rounded-pill px-3" disabled>
-                                        Unavailable
-                                    </button>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
+
+{% if equipment %}
+
+    {% for item in equipment %}
+    <tr>
+        <td>{{ item[0] }}</td>
+        <td class="fw-semibold">{{ item[1] }}</td>
+        <td>{{ item[2] }}</td>
+        <td>{{ item[3] }}</td>
+        <td>{{ item[4] }}</td>
+
+        <td>
+            {% if item[4] > 0 %}
+                <span class="badge bg-success rounded-pill">
+                    Available
+                </span>
+            {% else %}
+                <span class="badge bg-secondary rounded-pill">
+                    Unavailable
+                </span>
+            {% endif %}
+        </td>
+
+        <td>
+            {% if item[4] > 0 %}
+                <a href="/book/{{ item[0] }}"
+                   class="btn btn-success btn-sm rounded-pill px-3">
+                    Book
+                </a>
+            {% else %}
+                <button
+                    class="btn btn-secondary btn-sm rounded-pill px-3"
+                    disabled>
+                    Unavailable
+                </button>
+            {% endif %}
+        </td>
+
+    </tr>
+    {% endfor %}
+
+{% else %}
+
+<tr>
+    <td colspan="7" class="text-center py-4 text-muted">
+        No equipment found.
+    </td>
+</tr>
+
+{% endif %}
+
+</tbody>
 
                 </table>
             </div>
