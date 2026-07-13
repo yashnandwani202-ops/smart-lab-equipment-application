@@ -7,7 +7,6 @@ from io import BytesIO
 from datetime import datetime
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import Paragraph
 from flask import send_file
 import os
 
@@ -45,7 +44,16 @@ app.config["MYSQL_PORT"] = int(
     os.environ.get("MYSQL_PORT", "3306")
 )
 
+mysql_ssl_mode = os.environ.get("MYSQL_SSL_MODE")
+
+if mysql_ssl_mode:
+    app.config["MYSQL_CUSTOM_OPTIONS"] = {
+        "ssl_mode": mysql_ssl_mode
+    }
+
 mysql = MySQL(app)
+
+
 
 
 def require_role(role):
