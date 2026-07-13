@@ -270,36 +270,66 @@ def faculty_requests():
 
 @app.route("/approve/<int:booking_id>")
 def approve_booking(booking_id):
+
     if not require_role("faculty"):
         return redirect(url_for("login"))
 
     cursor = mysql.connection.cursor()
 
     cursor.execute(
-        "SELECT equipment_id, status FROM bookings WHERE id = %s",
+        """
+        SELECT equipment_id, status
+        FROM bookings
+        WHERE id = %s
+        """,
         (booking_id,)
     )
+
     booking = cursor.fetchone()
 
-    if booking:
-        equipment_id = booking[0]
-        current_status = booking[1]
+    if not booking:
+        cursor.close()
+        flash("Booking request not found.")
+        return redirect(url_for("faculty_requests"))
 
-        if current_status == "Pending":
-            cursor.execute(
-                "UPDATE equipment SET available_quantity = available_quantity - 1 WHERE id = %s AND available_quantity > 0",
-                (equipment_id,)
-            )
+    equipment_id = booking[0]
+    current_status = booking[1]
 
-            cursor.execute(
-                "UPDATE bookings SET status = %s WHERE id = %s",
-                ("Approved", booking_id)
-            )
+    if current_status != "Pending":
+        cursor.close()
+        flash("This booking request has already been processed.")
+        return redirect(url_for("faculty_requests"))
 
-            mysql.connection.commit()
+    cursor.execute(
+        """
+        UPDATE equipment
+        SET available_quantity = available_quantity - 1
+        WHERE id = %s
+          AND available_quantity > 0
+        """,
+        (equipment_id,)
+    )
 
+    if cursor.rowcount == 0:
+        mysql.connection.rollback()
+        cursor.close()
+
+        flash("Cannot approve this booking because no units are available.")
+        return redirect(url_for("faculty_requests"))
+
+    cursor.execute(
+        """
+        UPDATE bookings
+        SET status = %s
+        WHERE id = %s
+        """,
+        ("Approved", booking_id)
+    )
+
+    mysql.connection.commit()
     cursor.close()
 
+    flash("Booking approved successfully.")
     return redirect(url_for("faculty_requests"))
 
 
