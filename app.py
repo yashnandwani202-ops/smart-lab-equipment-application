@@ -9,15 +9,41 @@ from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph
 from flask import send_file
+import os
 
 
 app = Flask(__name__)
-app.secret_key = "smart_lab_secret_key"
 
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = "1234"
-app.config["MYSQL_DB"] = "smart_lab_db"
+# Secret key for sessions and flash messages
+app.secret_key = os.environ.get(
+    "SECRET_KEY",
+    "local-development-secret-key"
+)
+
+# Database configuration
+app.config["MYSQL_HOST"] = os.environ.get(
+    "MYSQL_HOST",
+    "localhost"
+)
+
+app.config["MYSQL_USER"] = os.environ.get(
+    "MYSQL_USER",
+    "root"
+)
+
+app.config["MYSQL_PASSWORD"] = os.environ.get(
+    "MYSQL_PASSWORD",
+    "1234"
+)
+
+app.config["MYSQL_DB"] = os.environ.get(
+    "MYSQL_DB",
+    "smart_lab_db"
+)
+
+app.config["MYSQL_PORT"] = int(
+    os.environ.get("MYSQL_PORT", "3306")
+)
 
 mysql = MySQL(app)
 
